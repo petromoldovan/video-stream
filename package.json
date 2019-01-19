@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.0.1",
     "express": "^4.16.4",
     "jest": "^23.6.0",
     "puppeteer": "^1.11.0"

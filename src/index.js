@@ -1,7 +1,9 @@
 const express = require("express")
 const fs = require("fs")
 const http = require("http")
+const https = require("https")
 const {authRoute} = require('./helpers/auth_utils')
+const config = require('config')
 
 const app = express()
 
@@ -59,9 +61,20 @@ app.get("/video", (req, res, next) => {
   }
 })
 
-const serverHTTP = http.createServer(app)
+const createServer = (app) => {
+  let server = http.createServer(app)
+  if (config.get('server.protocol') === 'https') {
+    const options = {
+      key: fs.readFileSync('config/client-key.pem'),
+      cert: fs.readFileSync('config/client-cert.pem')
+    }
+    server = https.createServer(options, app)
+  }
 
-const PORT = 3000
-serverHTTP.listen(PORT, () => {
-  console.log("listening on port: ", PORT)
-})
+  const PORT = config.get('server.port')
+  server.listen(PORT, () => {
+    console.log("listening on port: ", PORT)
+  })
+}
+
+createServer(app)
