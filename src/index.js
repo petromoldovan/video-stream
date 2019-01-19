@@ -1,12 +1,17 @@
 const express = require("express")
 const fs = require("fs")
 const http = require("http")
+const {authRoute} = require('./helpers/auth_utils')
 
 const app = express()
 
 app.use(express.static("public"))
 
 app.get("/ping", (req, res, next) => {
+  return res.status(200).send({message: "ok"})
+})
+
+app.get("/proxy", authRoute, (req, res) => {
   return res.status(200).send({message: "ok"})
 })
 
