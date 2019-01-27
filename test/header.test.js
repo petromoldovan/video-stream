@@ -8,7 +8,6 @@ beforeEach(async() => {
 
   page = await browser.newPage()
   await page.goto('http://127.0.0.1:3000')
-
 })
 
 afterEach(async () => {
@@ -16,9 +15,8 @@ afterEach(async () => {
 })
 
 test('launch browser', async () => {
-
   const text = await page.$eval('a.someclass', el => el.innerHTML)
-  expect(text).toEqual("some text")
+  expect(text).toEqual("exampletext")
 })
 
 test('clicking on smth', async () => {
