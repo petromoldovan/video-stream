@@ -1,6 +1,9 @@
 {
   "server": {
     "port": 3000,
-    "protocol": "https"
+    "protocol": "http",
+    "session": {
+      "secret": "sessionsecret"
+    }
   }
 }

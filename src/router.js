@@ -1,7 +1,19 @@
 const express = require('express')
+const fs = require("fs")
 const {authRoute} = require('./helpers/auth_utils')
 
 const router = express.Router()
+
+
+const countViewsMiddleware = (req, res, next) => {
+  if (req.session.views) {
+    req.session.views++
+    next()
+  } else {
+    req.session.views = 1
+    next()
+  }
+}
 
 router.get("/ping", (req, res) => {
   return res.status(200).send({message: "ok"})
@@ -45,7 +57,7 @@ router.get("/proxy", authRoute, (req, res) => {
   return res.status(200).send({message: "ok"})
 })
 
-router.get("/video", async (req, res, next) => {
+router.get("/video", countViewsMiddleware, async (req, res, next) => {
   const path = `${__dirname}/../public/test.mp4`
   const stats = fs.statSync(path)
   const range = req.headers.range
